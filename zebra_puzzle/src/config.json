@@ -1,0 +1,37 @@
+{
+    "houses": 5,
+    "class_count": 5,
+    "question_count": 2,
+
+    "class_names" :
+    [
+        {
+            "class": "door",
+            "variants": ["a red", "a green", "a blue", "a white", "a yellow", "a black", "an orange", "a purple", "a maroon"]
+        },
+        {
+            "class": "owner",
+            "variants": ["a Norwegian", "an English", "a Swedish", "a Danish", "a German", "a Japanese", "an Italian", "a Spanish", "a Belgian"]
+        },
+        {
+            "class": "as a pet",
+            "variants": ["a dog", "a cat", "a bird", "a fish", "a rabbit", "a hamster", "a turtle", "a monkey", "an aardvark"]
+        },
+        {
+            "class": "as a favorite drink",
+            "variants": ["water", "tea", "coffee", "milk", "beer", "whiskey", "wine", "soda", "lemonade" ]
+        },
+        {
+            "class": "as a favorite food",
+            "variants": ["pizza", "pasta", "salad", "sushi", "tacos", "burgers", "steak", "soup", "sandwiches"]
+        },
+        {
+            "class": "as a favorite sport",
+            "variants": ["soccer", "basketball", "tennis", "swimming", "cycling", "running", "skiing", "surfing", "pickleball" ]
+        },
+        {
+            "class": "construction",
+            "variants": ["steel", "brick", "pine", "stone", "adobe", "concrete", "glass", "cinderblock", "plywood" ]
+        }
+    ]
+}
