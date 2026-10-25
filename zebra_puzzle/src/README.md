@@ -83,11 +83,11 @@ Output will be similar to the example above (which was generated using the app).
 
 ## Glossary:
 
-**House**: The number of the house on the street (0, 1, 2, 3...).
+**House**: The number of a house on the street (0, 1, 2, 3...).
 
 **Class**: The type of characteristic of a house (Door color, pet, favorite food...).
 
-**Choice**: An actual choice a resident might make (Blue, dog, sandwiches...).
+**Choice**: An actual choice a resident might make (Blue, sandwiches, dog, ...).
 
 **Pair**: A combination of a class and a choice represented like (Class:Choice).  So(2:3) means "Choice 3 of class 2".
 
@@ -95,7 +95,7 @@ Output will be similar to the example above (which was generated using the app).
 
 During the construction process, these are kept as a pair of pairs.
 
-**Remember the choice indices in the solution are always the same as the house index!**
+**The choice indices in the solution are always the same as the house index!**
 
 *(House 1 is left of house 2)*<br>
 ((1,2), (2,3)) means: "The house with choice 1 of class 2 is left of the house with choice 2 of class 2".
@@ -104,6 +104,7 @@ During the construction process, these are kept as a pair of pairs.
 
 ## Design approach
 At the top level, the first decision was fairly obvious:  Represent the houses using numeric indices instead of strings and only map the indices into phrases at the very end.
+
 Another choice occurred to me that turned out to simplify the process greatly: I could declare the choices in final solution to be always be the same as the house index.
 
 Like so:
@@ -116,7 +117,7 @@ Like so:
 
 ### The solution is always numerically the same.
 
-The second field in all of the pairs is always equal to the house.  The randomness of the solution would come entirely from shuffling the terms before printing them out.
+The second field in all of the pairs is always equal to the house.  The randomness of the solution would come entirely from shuffling the descriptions before printing them out.
 
 The advantage of this is, during the process of generating clues to make wrong answers illegal, it makes it much, much easier to find which pairs are in the wrong place and how they relate to the right place.
 
@@ -174,13 +175,13 @@ Remember:  A clue is two class/choice pairs.
 
 Also remember: the "correct" solution has each choice index equal to the house it is in.  The choice index in all of the classes of house 2 are always 2.
 
-This creates an opportunity:  If we look at all the possible clues for a wrong answay, the relative relations will sometimes be wrong.
+This creates an opportunity:  If we look at all the possible clues for a wrong answer, the relative relations will sometimes be wrong.
 
-If a legal clue for a wrong solution is something like "(1:2) is left of (3:4)", we know that this can't be true of the right solution (4 is two greater than 2; it should be only one greater).
+If a legal clue for a wrong solution is something like "(1:2) is left of (3:4)", we know that this can't be true of the correct solution (4 is two greater than 2; it should be only one greater).
 
 What we do is we count the number of times legal clues ((1:2)-(3:3) for instance) can be applied to the list of legal (but possibly wrong) solutions.  The clue that is legal in the fewest possible cases will, inversely, invalidate the greated number of legal but wrong solutions.
 
-We push that clue on the stack an run the solver code again, but on the second and furthe solver iterations, we only check the legal solutions from the previous run against the new clue.  We don't need to start from the beginning again.
+We push that clue on the stack and run the solver code again, but on the second and further solver iterations, we only check the legal solutions from the previous run against the new clue.  We don't need to start from the beginning again.
 
 This goes on until only the correct solution remains.  It seems, to my eye, to converge by about a factor of 10 per clue on average.
 
