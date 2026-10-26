@@ -89,18 +89,23 @@ Output will be similar to the example above (which was generated using the app).
 
 **Choice**: An actual choice a resident might make (Blue, sandwiches, dog, ...).
 
+The choice indices in the solution are always the same as the house index.  More on that later.
+
 **Pair**: A combination of a class and a choice represented like (Class:Choice).  So(2:3) means "Choice 3 of class 2".
 
 **Clue**: Some true thing about the solution.  "The house with stone construction is left of the house with adobe construction." or "House number 5 has steak as a favorite food.".
 
 During the construction process, these are kept as a pair of pairs.
 
-**The choice indices in the solution are always the same as the house index!**
-
-*(House 1 is left of house 2)*<br>
-((1,2), (2,3)) means: "The house with choice 1 of class 2 is left of the house with choice 2 of class 2".
+((1,2), (2,3)) means: "The house with choice 1 of class 2 is left of the house with choice 2 of class 3".
 
 **Slot**: A class for a house.  The color of the door of house 3, for instance.
+
+**Correct Solution**: The actual, single solution we want the user to find.
+
+**Legal Solution**: A solution that satisfies the current clue list, but might not be the actual one we are looking for.
+
+Initially, we will have more than one legal solution.  We will add clues until only the correct solution remains legal.
 
 ## Design approach
 At the top level, the first decision was fairly obvious:  Represent the houses using numeric indices instead of strings and only map the indices into phrases at the very end.
@@ -115,9 +120,9 @@ Like so:
     Class 2        (2:0)      (2:1)       (2:2)       (2:3)       (2:4)
     ...
 
-### The solution is always numerically the same.
+### The solution is always numerically the same, only the index to words mapping changes.
 
-The second field in all of the pairs is always equal to the house.  The randomness of the solution would come entirely from shuffling the descriptions before printing them out.
+The second field in all of the pairs is always equal to the house.  The randomness of the solution comes entirely from shuffling the descriptions before printing them out.
 
 The advantage of this is, during the process of generating clues to make wrong answers illegal, it makes it much, much easier to find which pairs are in the wrong place and how they relate to the right place.
 
@@ -137,7 +142,7 @@ This limits the number of questions to the number of classes.  Sorry.
 
 The first step is to generate a set of clues that will mention all of the pair positions exactly once (not including the final question slots).
 
-At this point, we start randomly generating possible clues ("The house with a gerbil is left of the house with a red door" for instance) and checking to make sure they don't conflict with earlier clues.  We do this until we make 100 straight clues in a row that conflict with previous ones.
+We randomly generate possible clues ("The house with a gerbil is left of the house with a red door" for instance) and check to make sure they don't conflict with earlier clues.  We do this until we make 100 straight clues in a row that conflict with previous ones.
 
 Once that happens, we finish the list by just generating clues for the untouched houses ("House 3 has a Swedish resident" for instance) to get complete coverage.
 
